@@ -1,0 +1,7 @@
+<map id="DPsim::DataLoggerInterface" name="DPsim::DataLoggerInterface">
+<area shape="rect" id="Node000001" title=" " alt="" coords="74,5,274,35"/>
+<area shape="rect" id="Node000002" href="$class_d_psim_1_1_data_logger.html" title=" " alt="" coords="5,83,148,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,47,96,85,93,80,142,43"/>
+<area shape="rect" id="Node000003" href="$class_d_psim_1_1_real_time_data_logger.html" title=" " alt="" coords="172,83,370,113"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,43,255,80,251,85,203,47"/>
+</map>
