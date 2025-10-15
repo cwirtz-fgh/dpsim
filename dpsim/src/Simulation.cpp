@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-
+#define NOMINMAX
 #include <algorithm>
 #include <chrono>
 #include <iomanip>
