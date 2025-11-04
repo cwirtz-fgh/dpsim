@@ -12,7 +12,7 @@
 #include <dpsim-models/Definitions.h>
 #include <dpsim-models/Logger.h>
 #include <dpsim-models/MNASimPowerComp.h>
-#include <dpsim-models/Solver/MNAInterface.h>
+#include <dpsim-models/Solver/MNAVariableCompInterface.h>
 #include <dpsim-models/Solver/MNASwitchInterface.h>
 
 namespace CPS {
@@ -25,8 +25,10 @@ namespace Ph3 {
 class Switch : public MNASimPowerComp<Real>,
                public Base::Ph3::Switch,
                public SharedFactory<Switch>,
+               public MNAVariableCompInterface,
                public MNASwitchInterface {
-
+protected:
+  Bool mPrevState = false;
 public:
   /// Defines UID, name, component parameters and logging level
   Switch(String uid, String name, Logger::Level loglevel = Logger::Level::off);
@@ -39,6 +41,8 @@ public:
   // #### General ####
   /// Initializes component from power flow data
   void initializeFromNodesAndTerminals(Real frequency) override;
+
+  Bool hasParameterChanged();
 
   // #### General MNA section ####
   void mnaCompInitialize(Real omega, Real timeStep,

@@ -89,6 +89,9 @@ set(CIRCUIT_SOURCES
 	Circuits/DP_SynGenTrStab_3Bus_SteadyState.cpp
 	Circuits/DP_SynGenTrStab_3Bus_Fault.cpp
 	Circuits/SP_SynGenTrStab_3Bus_Fault.cpp
+
+	# EMT 3Ph Test
+	Circuits/EMT_3Ph_Switch_Test.cpp
 )
 
 if(WITH_JSON)
