@@ -12,8 +12,8 @@
 #include <dpsim-models/Definitions.h>
 #include <dpsim-models/Logger.h>
 #include <dpsim-models/MNASimPowerComp.h>
-#include <dpsim-models/Solver/MNAVariableCompInterface.h>
 #include <dpsim-models/Solver/MNASwitchInterface.h>
+#include <dpsim-models/Solver/MNAVariableCompInterface.h>
 
 namespace CPS {
 namespace EMT {
@@ -29,6 +29,7 @@ class Switch : public MNASimPowerComp<Real>,
                public MNASwitchInterface {
 protected:
   Bool mPrevState = false;
+
 public:
   /// Defines UID, name, component parameters and logging level
   Switch(String uid, String name, Logger::Level loglevel = Logger::Level::off);
@@ -42,7 +43,7 @@ public:
   /// Initializes component from power flow data
   void initializeFromNodesAndTerminals(Real frequency) override;
 
-  Bool hasParameterChanged();
+  Bool hasParameterChanged() override;
 
   // #### General MNA section ####
   void mnaCompInitialize(Real omega, Real timeStep,
