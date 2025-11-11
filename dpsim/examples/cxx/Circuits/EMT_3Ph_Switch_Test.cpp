@@ -60,13 +60,12 @@ Real PloadL8 = 300e6;
 Real QloadL8 = 0;
 
 //Simulation parameters
-String simName = "EMT_WSCC9_diakoptics_fault";
+String simName = "EMT_3Ph_Switch_Test";
 Real finalTime = 0.4;
 Real timeStep = 10e-5;
 Real startTimeFault = 0.2;
 
 int main() {
-  
   // ----- Dynamic simulation ------
   Logger::setLogDir("logs/" + simName);
 
@@ -85,7 +84,8 @@ int main() {
   //
   
   //Grid bus as Slack
-  auto extnet1 = EMT::Ph3::NetworkInjection::make("Slack4", Logger::Level::debug);
+  auto extnet1 =
+      EMT::Ph3::NetworkInjection::make("Slack4", Logger::Level::debug);
   extnet1->setParameters(Math::singlePhaseVariableToThreePhase(voltageHVSide));
   auto extnet2 =
       EMT::Ph3::NetworkInjection::make("Slack7", Logger::Level::debug);
@@ -97,44 +97,44 @@ int main() {
   auto line45 = EMT::Ph3::PiLine::make("PiLine45", Logger::Level::debug);
   line45->setParameters(
       Math::singlePhaseParameterToThreePhase(lineResistance),
-                      Math::singlePhaseParameterToThreePhase(lineInductance),
-                      Math::singlePhaseParameterToThreePhase(lineCapacitance),
-                      Math::singlePhaseParameterToThreePhase(lineConductance));
+      Math::singlePhaseParameterToThreePhase(lineInductance),
+      Math::singlePhaseParameterToThreePhase(lineCapacitance),
+      Math::singlePhaseParameterToThreePhase(lineConductance));
 
   auto line46 = EMT::Ph3::PiLine::make("line46", Logger::Level::debug);
   line46->setParameters(
       Math::singlePhaseParameterToThreePhase(lineResistance),
-                      Math::singlePhaseParameterToThreePhase(lineInductance),
-                      Math::singlePhaseParameterToThreePhase(lineCapacitance),
-                      Math::singlePhaseParameterToThreePhase(lineConductance));
+      Math::singlePhaseParameterToThreePhase(lineInductance),
+      Math::singlePhaseParameterToThreePhase(lineCapacitance),
+      Math::singlePhaseParameterToThreePhase(lineConductance));
 
   auto line57 = EMT::Ph3::PiLine::make("line57", Logger::Level::debug);
   line57->setParameters(
       Math::singlePhaseParameterToThreePhase(lineResistance),
-                      Math::singlePhaseParameterToThreePhase(lineInductance),
-                      Math::singlePhaseParameterToThreePhase(lineCapacitance),
-                      Math::singlePhaseParameterToThreePhase(lineConductance));
+      Math::singlePhaseParameterToThreePhase(lineInductance),
+      Math::singlePhaseParameterToThreePhase(lineCapacitance),
+      Math::singlePhaseParameterToThreePhase(lineConductance));
 
   auto line69 = EMT::Ph3::PiLine::make("line69", Logger::Level::debug);
   line69->setParameters(
       Math::singlePhaseParameterToThreePhase(lineResistance),
-                      Math::singlePhaseParameterToThreePhase(lineInductance),
-                      Math::singlePhaseParameterToThreePhase(lineCapacitance),
-                      Math::singlePhaseParameterToThreePhase(lineConductance));
+      Math::singlePhaseParameterToThreePhase(lineInductance),
+      Math::singlePhaseParameterToThreePhase(lineCapacitance),
+      Math::singlePhaseParameterToThreePhase(lineConductance));
 
   auto line78 = EMT::Ph3::PiLine::make("line78", Logger::Level::debug);
   line78->setParameters(
       Math::singlePhaseParameterToThreePhase(lineResistance),
-                      Math::singlePhaseParameterToThreePhase(lineInductance),
-                      Math::singlePhaseParameterToThreePhase(lineCapacitance),
-                      Math::singlePhaseParameterToThreePhase(lineConductance));
+      Math::singlePhaseParameterToThreePhase(lineInductance),
+      Math::singlePhaseParameterToThreePhase(lineCapacitance),
+      Math::singlePhaseParameterToThreePhase(lineConductance));
 
   auto line89 = EMT::Ph3::PiLine::make("line89", Logger::Level::debug);
   line89->setParameters(
       Math::singlePhaseParameterToThreePhase(lineResistance),
-                      Math::singlePhaseParameterToThreePhase(lineInductance),
-                      Math::singlePhaseParameterToThreePhase(lineCapacitance),
-                      Math::singlePhaseParameterToThreePhase(lineConductance));
+      Math::singlePhaseParameterToThreePhase(lineInductance),
+      Math::singlePhaseParameterToThreePhase(lineCapacitance),
+      Math::singlePhaseParameterToThreePhase(lineConductance));
 
   auto loadRX5 = EMT::Ph3::RXLoad::make("r_5", Logger::Level::debug);
   loadRX5->setParameters(Math::singlePhaseParameterToThreePhase(PloadL5),
@@ -169,10 +169,11 @@ int main() {
   loadRX6->connect({n6});
   loadRX8->connect({n8});
   fault->connect({n5, EMT::SimNode::GND});
-  auto system = SystemTopology(nomFreq, SystemNodeList{n4, n5, n6, n7, n8, n9},
-                     SystemComponentList{extnet1, extnet2, extnet3, line45,
-                                         line46, line57, line69, line78,
-                                         line89, loadRX5, loadRX6, loadRX8, fault});
+  auto system =
+    SystemTopology(nomFreq, SystemNodeList{n4, n5, n6, n7, n8, n9},
+      SystemComponentList{extnet1, extnet2, extnet3, line45,
+      line46, line57, line69, line78, line89,
+      loadRX5, loadRX6, loadRX8, fault});
 
   // Logging
   auto logger = DataLogger::make(simName);
@@ -197,5 +198,4 @@ int main() {
   sim.addEvent(sw1);
   sim.doSystemMatrixRecomputation(true);
   sim.run();
-  
 }

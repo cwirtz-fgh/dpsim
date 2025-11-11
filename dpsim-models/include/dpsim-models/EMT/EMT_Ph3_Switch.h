@@ -12,8 +12,8 @@
 #include <dpsim-models/Definitions.h>
 #include <dpsim-models/Logger.h>
 #include <dpsim-models/MNASimPowerComp.h>
-#include <dpsim-models/Solver/MNAVariableCompInterface.h>
 #include <dpsim-models/Solver/MNASwitchInterface.h>
+#include <dpsim-models/Solver/MNAVariableCompInterface.h>
 
 namespace CPS {
 namespace EMT {
@@ -42,7 +42,7 @@ public:
   /// Initializes component from power flow data
   void initializeFromNodesAndTerminals(Real frequency) override;
 
-  Bool hasParameterChanged();
+  Bool hasParameterChanged() override;
 
   // #### General MNA section ####
   void mnaCompInitialize(Real omega, Real timeStep,
