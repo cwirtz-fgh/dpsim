@@ -107,3 +107,16 @@ void SP::Ph1::Switch::mnaCompPostStep(Real time, Int timeStepCount,
   mnaCompUpdateVoltage(**leftVector);
   mnaCompUpdateCurrent(**leftVector);
 }
+
+Bool SP::Ph1::Switch::hasParameterChanged() {
+  //Get present state
+  Bool presentState = this->mnaIsClosed();
+
+  // Check if state of switch changed from open to closed
+  if (!(mPrevState == presentState)) {
+    mPrevState = presentState;
+    return 1; //recompute system matrix
+  } else {
+    return 0; // do not recompute system matrix
+  }
+};

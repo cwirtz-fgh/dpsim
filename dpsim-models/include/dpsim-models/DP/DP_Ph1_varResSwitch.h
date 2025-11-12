@@ -94,6 +94,7 @@ public:
                                            SparseMatrixRow &systemMatrix,
                                            Int freqIdx);
 
+  // #### MNA section for variable component ####
   Bool hasParameterChanged();
 };
 } // namespace Ph1
