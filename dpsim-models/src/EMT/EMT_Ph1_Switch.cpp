@@ -117,3 +117,16 @@ void EMT::Ph1::Switch::mnaCompUpdateCurrent(const Matrix &leftVector) {
                                ? (**mIntfVoltage)(0, 0) / (**mClosedResistance)
                                : (**mIntfVoltage)(0, 0) / (**mOpenResistance);
 }
+
+Bool EMT::Ph1::Switch::hasParameterChanged() {
+  //Get present state
+  Bool presentState = this->mnaIsClosed();
+
+  // Check if state of switch changed from open to closed
+  if (!(mPrevState == presentState)) {
+    mPrevState = presentState;
+    return 1; //recompute system matrix
+  } else {
+    return 0; // do not recompute system matrix
+  }
+};

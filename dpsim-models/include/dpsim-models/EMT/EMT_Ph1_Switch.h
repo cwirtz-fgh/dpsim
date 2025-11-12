@@ -12,8 +12,8 @@
 #include <dpsim-models/Definitions.h>
 #include <dpsim-models/Logger.h>
 #include <dpsim-models/MNASimPowerComp.h>
-#include <dpsim-models/Solver/MNAInterface.h>
 #include <dpsim-models/Solver/MNASwitchInterface.h>
+#include <dpsim-models/Solver/MNAVariableCompInterface.h>
 
 namespace CPS {
 namespace EMT {
@@ -25,7 +25,10 @@ namespace Ph1 {
 class Switch : public MNASimPowerComp<Real>,
                public Base::Ph1::Switch,
                public SharedFactory<Switch>,
+               public MNAVariableCompInterface,
                public MNASwitchInterface {
+protected:
+  Bool mPrevState = false;
 
 public:
   /// Defines UID, name, component parameters and logging level
@@ -69,6 +72,8 @@ public:
                                  AttributeBase::List &attributeDependencies,
                                  AttributeBase::List &modifiedAttributes,
                                  Attribute<Matrix>::Ptr &leftVector) override;
+  // #### MNA section for variable component ####
+  Bool hasParameterChanged();
 };
 } // namespace Ph1
 } // namespace EMT

@@ -43,8 +43,6 @@ public:
   /// Initializes component from power flow data
   void initializeFromNodesAndTerminals(Real frequency) override;
 
-  Bool hasParameterChanged() override;
-
   // #### General MNA section ####
   void mnaCompInitialize(Real omega, Real timeStep,
                          Attribute<Matrix>::Ptr leftVector) override;
@@ -74,6 +72,9 @@ public:
                                  AttributeBase::List &attributeDependencies,
                                  AttributeBase::List &modifiedAttributes,
                                  Attribute<Matrix>::Ptr &leftVector) override;
+
+  // #### MNA section for variable component ####
+  Bool hasParameterChanged() override;
 };
 } // namespace Ph3
 } // namespace EMT
