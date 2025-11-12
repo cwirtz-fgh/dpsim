@@ -169,10 +169,10 @@ int main() {
   loadRX8->connect({n8});
   fault->connect({n5, EMT::SimNode::GND});
   auto system =
-    SystemTopology(nomFreq, SystemNodeList{n4, n5, n6, n7, n8, n9},
-                   SystemComponentList{extnet1, extnet2, extnet3, line45,
-                                       line46, line57, line69, line78, line89,
-                                       loadRX5, loadRX6, loadRX8, fault});
+      SystemTopology(nomFreq, SystemNodeList{n4, n5, n6, n7, n8, n9},
+                     SystemComponentList{extnet1, extnet2, extnet3, line45,
+                                         line46, line57, line69, line78, line89,
+                                         loadRX5, loadRX6, loadRX8, fault});
 
   // Logging
   auto logger = DataLogger::make(simName);

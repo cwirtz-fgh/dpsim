@@ -21,6 +21,9 @@ DP::Ph3::SeriesSwitch::SeriesSwitch(String uid, String name,
 
 void DP::Ph3::SeriesSwitch::initializeFromNodesAndTerminals(Real frequency) {
 
+  mTerminals[0]->setPhaseType(PhaseType::ABC);
+  mTerminals[1]->setPhaseType(PhaseType::ABC);
+
   Real impedance = (**mIsClosed) ? **mClosedResistance : **mOpenResistance;
   **mIntfVoltage = initialVoltage(1) - initialVoltage(0);
   **mIntfCurrent = **mIntfVoltage / impedance;

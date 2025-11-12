@@ -10,8 +10,8 @@
 
 #include <dpsim-models/Base/Base_Ph1_Switch.h>
 #include <dpsim-models/MNASimPowerComp.h>
-#include <dpsim-models/Solver/MNAVariableCompInterface.h>
 #include <dpsim-models/Solver/MNASwitchInterface.h>
+#include <dpsim-models/Solver/MNAVariableCompInterface.h>
 
 namespace CPS {
 namespace EMT {

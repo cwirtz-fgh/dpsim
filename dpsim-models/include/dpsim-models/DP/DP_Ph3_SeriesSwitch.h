@@ -28,7 +28,7 @@ class SeriesSwitch : public MNASimPowerComp<Complex>,
                      public Base::Ph1::Switch,
                      public SharedFactory<SeriesSwitch>,
                      public MNASwitchInterface,
-                     public MNAVariableCompInterface{
+                     public MNAVariableCompInterface {
 protected:
   Bool mPrevState = false;
 
@@ -73,7 +73,7 @@ public:
                        Attribute<Matrix>::Ptr &leftVector) override;
 
   // #### MNA section for variable component ####
-  Bool hasParameterChanged();
+  Bool hasParameterChanged() override;
 };
 } // namespace Ph3
 } // namespace DP
