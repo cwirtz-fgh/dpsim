@@ -73,7 +73,7 @@ public:
                                  AttributeBase::List &modifiedAttributes,
                                  Attribute<Matrix>::Ptr &leftVector) override;
   // #### MNA section for variable component ####
-  Bool hasParameterChanged();
+  Bool hasParameterChanged() override;
 };
 } // namespace Ph1
 } // namespace EMT
