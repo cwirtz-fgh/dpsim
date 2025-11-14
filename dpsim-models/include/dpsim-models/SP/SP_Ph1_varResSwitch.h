@@ -31,7 +31,6 @@ class varResSwitch : public MNASimPowerComp<Complex>,
                      public SharedFactory<varResSwitch> {
 
 protected:
-  Bool mPrevState = false;
   Real mDeltaResClosed = 0;
   Real mDeltaResOpen = 1.5;
   Real mPrevRes; // previous resistance value to multiply with rate of change

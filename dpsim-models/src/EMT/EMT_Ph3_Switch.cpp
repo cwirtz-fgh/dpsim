@@ -136,12 +136,9 @@ void EMT::Ph3::Switch::mnaCompUpdateCurrent(const Matrix &leftVector) {
 }
 
 Bool EMT::Ph3::Switch::hasParameterChanged() {
-  //Get present state
-  Bool presentState = this->mnaIsClosed();
-
-  // Check if state of switch changed from open to closed
-  if (!(mPrevState == presentState)) {
-    mPrevState = presentState;
+  // Check if state of switch changed
+  if (!(mIsClosedPrev == this->mnaIsClosed())) {
+    mIsClosedPrev = this->mnaIsClosed();
     return 1; //recompute system matrix
   } else {
     return 0; // do not recompute system matrix

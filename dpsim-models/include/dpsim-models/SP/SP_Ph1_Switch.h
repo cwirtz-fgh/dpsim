@@ -27,8 +27,6 @@ class Switch : public MNASimPowerComp<Complex>,
                public SharedFactory<Switch>,
                public MNAVariableCompInterface,
                public MNASwitchInterface {
-protected:
-  Bool mPrevState = false;
 
 public:
   /// Defines UID, name, component parameters and logging level
