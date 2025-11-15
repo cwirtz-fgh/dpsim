@@ -18,6 +18,7 @@ namespace Ph1 {
 class Switch {
 protected:
   Bool mIsClosedPrev = false;
+  
 public:
   /// Resistance if switch is open [ohm]
   const Attribute<Real>::Ptr mOpenResistance;
