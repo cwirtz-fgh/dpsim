@@ -40,6 +40,12 @@ public:
   const CPS::Attribute<Real>::Ptr mFinalTime;
   /// Simulation timestep
   const CPS::Attribute<Real>::Ptr mTimeStep;
+  /// Simulation use vartimestep
+  const CPS::Attribute<Bool>::Ptr mVarTimeStep;
+  /// Simulation timestep
+  const CPS::Attribute<Real>::Ptr mMaxTimeStep;
+  /// Simulation timestep
+  const CPS::Attribute<Real>::Ptr mMinTimeStep;
 
   /// Determines if the network should be split
   /// into subnetworks at decoupling lines.
@@ -169,6 +175,12 @@ public:
   void setFinalTime(Real finalTime) { **mFinalTime = finalTime; }
   ///
   void setDomain(CPS::Domain domain = CPS::Domain::DP) { mDomain = domain; }
+  ///
+  void setVariableTimeStep(bool varTimeStep, Real maxStep = 0.0001, Real minStep = 0.00005) {
+    **mVarTimeStep = varTimeStep;
+    **mMaxTimeStep = maxStep;
+    **mMinTimeStep = minStep;
+  }
   ///
   void setSolverType(Solver::Type solverType = Solver::Type::MNA) {
     mSolverType = solverType;
