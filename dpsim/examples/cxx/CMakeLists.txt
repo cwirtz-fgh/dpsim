@@ -38,6 +38,9 @@ set(CIRCUIT_SOURCES
 	Circuits/EMT_Ph3_RLC1VS1_RC_vs_SSN.cpp
 	Circuits/EMT_Ph1_General2TerminalSSN.cpp
 
+	# EMT examples with varTimestep
+	Circuits/EMT_VS_RL1_varStep.cpp
+
 	# EMT examples with PF initialization
 	Circuits/EMT_Slack_PiLine_PQLoad_with_PF_Init.cpp
 	Circuits/EMT_Slack_PiLine_VSI_with_PF_Init.cpp

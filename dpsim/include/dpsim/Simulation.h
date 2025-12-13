@@ -40,6 +40,10 @@ public:
   const CPS::Attribute<Real>::Ptr mFinalTime;
   /// Simulation timestep
   const CPS::Attribute<Real>::Ptr mTimeStep;
+  /// Simulation max timestep
+  const CPS::Attribute<Real>::Ptr mMinTimeStep;
+  /// Simulation max timestep
+  const CPS::Attribute<Real>::Ptr mMaxTimeStep;
 
   /// Determines if the network should be split
   /// into subnetworks at decoupling lines.
@@ -106,6 +110,8 @@ protected:
   Bool mFreqParallel = false;
   ///
   Bool mInitialized = false;
+  ///
+  Bool mVarTimeStep = false;
 
   // #### Initialization ####
   /// steady state initialization time limit
@@ -166,6 +172,11 @@ public:
   ///
   void setTimeStep(Real timeStep) { **mTimeStep = timeStep; }
   ///
+  void setMaxMinTimesteps(Real maxTimeStep, Real minTimeStep) {
+    **mMaxTimeStep = maxTimeStep;
+    **mMinTimeStep = minTimeStep;
+  }
+  ///
   void setFinalTime(Real finalTime) { **mFinalTime = finalTime; }
   ///
   void setDomain(CPS::Domain domain = CPS::Domain::DP) { mDomain = domain; }
@@ -213,6 +224,8 @@ public:
   void doSystemMatrixRecomputation(Bool value) {
     mSystemMatrixRecomputation = value;
   }
+  ///
+  void doVarTimestepSimulation(Bool value) { mVarTimeStep = value; }
   /// If logStepTimes is enabled, the time needed for every timesteps is logged
   /// and can be written to a file or the console using logStepTimes()
   void setLogStepTimes(Bool f) { mLogStepTimes = f; }

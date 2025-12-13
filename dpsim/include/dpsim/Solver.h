@@ -45,6 +45,10 @@ protected:
   CPS::Logger::Log mSLog;
   /// Time step for fixed step solvers
   Real mTimeStep;
+  /// Time step max boundarie for variable step solvers
+  Real mMaxTimeStep;
+  /// Time step min boundarie for variable step solvers
+  Real mMinTimeStep;
   /// Activates parallelized computation of frequencies
   Bool mFrequencyParallel = false;
 
@@ -62,6 +66,8 @@ protected:
   Bool mInitFromNodesAndTerminals = true;
   /// Enable recomputation of system matrix during simulation
   Bool mSystemMatrixRecomputation = false;
+  /// Enable variable timestep
+  Bool mVarTimeStep = false;
 
   /// Solver behaviour initialization or simulation
   Behaviour mBehaviour = Solver::Behaviour::Simulation;
@@ -81,6 +87,10 @@ public:
   ///
   void setTimeStep(Real timeStep) { mTimeStep = timeStep; }
   ///
+  void setMaxMinTimesteps(Real maxTimeStep, Real minTimeStep) {
+    mMaxTimeStep = maxTimeStep;
+    mMinTimeStep = minTimeStep;
+  }
   void doFrequencyParallelization(Bool freqParallel) {
     mFrequencyParallel = freqParallel;
   }
@@ -96,6 +106,8 @@ public:
   // #### Initialization ####
   ///
   virtual void initialize() {}
+  /// Re-init with new timestep
+  virtual void reInitialize() {}
   /// activate steady state initialization
   void doSteadyStateInit(Bool f) { mSteadyStateInit = f; }
   /// set steady state initialization time limit

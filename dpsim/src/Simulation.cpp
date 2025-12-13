@@ -32,6 +32,8 @@ Simulation::Simulation(String name, Logger::Level logLevel)
     : mName(AttributeStatic<String>::make(name)),
       mFinalTime(AttributeStatic<Real>::make(0.001)),
       mTimeStep(AttributeStatic<Real>::make(0.001)),
+      mMaxTimeStep(AttributeStatic<Real>::make(0.001)),
+      mMinTimeStep(AttributeStatic<Real>::make(0.001)),
       mSplitSubnets(AttributeStatic<Bool>::make(true)),
       mSteadyStateInit(AttributeStatic<Bool>::make(false)),
       mLogLevel(logLevel) {
@@ -43,6 +45,8 @@ Simulation::Simulation(String name, CommandLineArgs &args)
       mSolverPluginName(args.solverPluginName),
       mFinalTime(AttributeStatic<Real>::make(args.duration)),
       mTimeStep(AttributeStatic<Real>::make(args.timeStep)),
+      mMaxTimeStep(AttributeStatic<Real>::make(0.001)),
+      mMinTimeStep(AttributeStatic<Real>::make(0.001)),
       mSplitSubnets(AttributeStatic<Bool>::make(true)),
       mSteadyStateInit(AttributeStatic<Bool>::make(false)),
       mLogLevel(args.logLevel), mDomain(args.solver.domain),
@@ -153,6 +157,7 @@ template <typename VarType> void Simulation::createMNASolver() {
                                                   mLogLevel, mDirectImpl,
                                                   mSolverPluginName);
       solver->setTimeStep(**mTimeStep);
+      solver->setMaxMinTimesteps(**mMaxTimeStep, **mMinTimeStep);
       solver->setLogSolveTimes(mLogStepTimes);
       solver->doSteadyStateInit(**mSteadyStateInit);
       solver->doFrequencyParallelization(mFreqParallel);
@@ -379,6 +384,11 @@ Real Simulation::step() {
   mEvents.handleEvents(mTime);
   mScheduler->step(mTime, mTimeStepCount);
 
+  /// Test:
+  if (mTime > 0.1) {
+    **mTimeStep = **mMaxTimeStep;
+    mSolvers.at(0)->reInitialize();
+  }
   mTime += **mTimeStep;
   ++mTimeStepCount;
 

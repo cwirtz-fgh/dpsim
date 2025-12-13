@@ -101,6 +101,53 @@ template <typename VarType> void MnaSolver<VarType>::initialize() {
   mSLog->flush();
 }
 
+template <typename VarType> void MnaSolver<VarType>::reInitialize() {
+
+  // Vectors and Matrix sizes, components should stay the same 
+
+  // Some components depent on mTimeStep and need to be reinitialised, while keeping system states
+  reInitializeComponents();
+
+  // Initialize system matrices and source vector.
+  //initializeSystem(); re
+
+  SPDLOG_LOGGER_INFO(mSLog, "--- Initialization finished ---");
+  SPDLOG_LOGGER_INFO(mSLog, "--- Initial system matrices and vectors ---");
+  logSystemMatrices();
+
+  mSLog->flush();
+}
+
+template <> void MnaSolver<Real>::reInitializeComponents() {
+  SPDLOG_LOGGER_INFO(mSLog, "-- ReInitialize components");
+
+  CPS::MNAInterface::List allMNAComps;
+  allMNAComps.insert(allMNAComps.end(), mMNAComponents.begin(),
+                     mMNAComponents.end());
+  allMNAComps.insert(allMNAComps.end(), mMNAIntfVariableComps.begin(),
+                     mMNAIntfVariableComps.end());
+
+  // Initialize signal components.
+  for (auto comp : mSimSignalComps)
+    comp->initialize(mSystem.mSystemOmega, mTimeStep);
+
+  // Initialize MNA specific parts of components.
+  for (auto comp : allMNAComps) {
+    comp->mnaInitialize(mSystem.mSystemOmega, mTimeStep, mLeftSideVector);
+    const Matrix &stamp = comp->getRightVector()->get();
+    if (stamp.size() != 0) {
+      mRightVectorStamps.push_back(&stamp);
+    }
+  }
+
+  for (auto comp : mMNAIntfSwitches)
+    comp->mnaInitialize(mSystem.mSystemOmega, mTimeStep, mLeftSideVector);
+
+  // Initialize nodes
+  for (UInt nodeIdx = 0; nodeIdx < mNodes.size(); ++nodeIdx)
+    mNodes[nodeIdx]->initialize();
+}
+
 template <> void MnaSolver<Real>::initializeComponents() {
   SPDLOG_LOGGER_INFO(mSLog, "-- Initialize components from power flow");
 
@@ -134,10 +181,49 @@ template <> void MnaSolver<Real>::initializeComponents() {
 
   for (auto comp : mMNAIntfSwitches)
     comp->mnaInitialize(mSystem.mSystemOmega, mTimeStep, mLeftSideVector);
+}
 
-  // Initialize nodes
-  for (UInt nodeIdx = 0; nodeIdx < mNodes.size(); ++nodeIdx)
-    mNodes[nodeIdx]->initialize();
+template <> void MnaSolver<Complex>::reInitializeComponents() {
+  SPDLOG_LOGGER_INFO(mSLog, "-- Initialize components from power flow");
+
+  CPS::MNAInterface::List allMNAComps;
+  allMNAComps.insert(allMNAComps.end(), mMNAComponents.begin(),
+                     mMNAComponents.end());
+  allMNAComps.insert(allMNAComps.end(), mMNAIntfVariableComps.begin(),
+                     mMNAIntfVariableComps.end());
+
+  // Initialize signal components.
+  for (auto comp : mSimSignalComps)
+    comp->initialize(mSystem.mSystemOmega, mTimeStep);
+
+  SPDLOG_LOGGER_INFO(mSLog, "-- Initialize MNA properties of components");
+  if (mFrequencyParallel) {
+    // Initialize MNA specific parts of components.
+    for (auto comp : mMNAComponents) {
+      // Initialize MNA specific parts of components.
+      comp->mnaInitializeHarm(mSystem.mSystemOmega, mTimeStep,
+                              mLeftSideVectorHarm);
+      const Matrix &stamp = comp->getRightVector()->get();
+      if (stamp.size() != 0)
+        mRightVectorStamps.push_back(&stamp);
+    }
+    // Initialize nodes
+    for (UInt nodeIdx = 0; nodeIdx < mNodes.size(); ++nodeIdx) {
+      mNodes[nodeIdx]->mnaInitializeHarm(mLeftSideVectorHarm);
+    }
+  } else {
+    // Initialize MNA specific parts of components.
+    for (auto comp : allMNAComps) {
+      comp->mnaInitialize(mSystem.mSystemOmega, mTimeStep, mLeftSideVector);
+      const Matrix &stamp = comp->getRightVector()->get();
+      if (stamp.size() != 0) {
+        mRightVectorStamps.push_back(&stamp);
+      }
+    }
+
+    for (auto comp : mMNAIntfSwitches)
+      comp->mnaInitialize(mSystem.mSystemOmega, mTimeStep, mLeftSideVector);
+  }
 }
 
 template <> void MnaSolver<Complex>::initializeComponents() {

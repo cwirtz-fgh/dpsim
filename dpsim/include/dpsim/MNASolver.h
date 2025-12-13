@@ -126,6 +126,8 @@ protected:
 
   /// Initialization of individual components
   void initializeComponents();
+  /// Re Initialization of individual components
+  void reInitializeComponents();
   /// Initialization of system matrices and source vector
   virtual void initializeSystem();
   /// Initialization of system matrices and source vector
@@ -207,6 +209,7 @@ public:
 
   /// Calls subroutines to set up everything that is required before simulation
   virtual void initialize() override;
+  virtual void reInitialize() override;
 
   // #### Setter and Getter ####
   ///
